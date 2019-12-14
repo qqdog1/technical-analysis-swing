@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import name.qd.analysis.Constants.AnalyzerType;
 import name.qd.analysis.Constants.Exchange;
+import name.qd.analysis.client.config.ConfigLoader;
 import name.qd.analysis.client.datePicker.DayModel;
 import name.qd.analysis.dataSource.DataSource;
 import name.qd.analysis.dataSource.DataSourceFactory;
@@ -95,7 +96,7 @@ public class TechPanel extends JPanel {
 	}
 	
 	private void initManager() {
-		analyzerManager = TechAnalyzerManager.getInstance();
+		analyzerManager = new TechAnalyzerManager(ConfigLoader.getInstance().getCachePath());
 		twseDataManager = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE);
 	}
 	

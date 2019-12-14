@@ -1,0 +1,48 @@
+package name.qd.analysis.client.config;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ConfigLoader {
+	private Logger log = LoggerFactory.getLogger(ConfigLoader.class);
+	public static ConfigLoader instance = new ConfigLoader();
+	
+	private String cache_path;
+	
+	private ConfigLoader() {
+		loadConfig();
+	}
+	
+	public static ConfigLoader getInstance() {
+		return instance;
+	}
+	
+	private void loadConfig() {
+		try {
+			Properties properties = new Properties();
+			FileInputStream fIn = new FileInputStream("./config/config");
+			properties.load(fIn);
+			// 
+			readCachePath(properties);
+			
+			fIn.close();
+		} catch (FileNotFoundException e) {
+			log.error("", e);
+		} catch (IOException e) {
+			log.error("", e);
+		}
+	}
+	
+	private void readCachePath(Properties properties) {
+		cache_path = properties.getProperty("file_cache_path");
+	}
+	
+	public String getCachePath() {
+		return cache_path;
+	}
+}

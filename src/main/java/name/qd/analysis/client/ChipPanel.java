@@ -29,6 +29,7 @@ import name.qd.analysis.Constants.Exchange;
 import name.qd.analysis.chip.ChipAnalyzers;
 import name.qd.analysis.chip.InputField;
 import name.qd.analysis.chip.analyzer.ChipAnalyzerManager;
+import name.qd.analysis.client.config.ConfigLoader;
 import name.qd.analysis.client.datePicker.DayModel;
 import name.qd.analysis.dataSource.DataSource;
 import name.qd.analysis.dataSource.DataSourceFactory;
@@ -108,7 +109,7 @@ public class ChipPanel extends JPanel {
 	}
 	
 	private void initManager() {
-		analyzerManager = ChipAnalyzerManager.getInstance();
+		analyzerManager = new ChipAnalyzerManager(ConfigLoader.getInstance().getCachePath());
 		dataSource = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE);
 	}
 	

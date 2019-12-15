@@ -97,7 +97,7 @@ public class TechPanel extends JPanel {
 	
 	private void initManager() {
 		analyzerManager = new TechAnalyzerManager(ConfigLoader.getInstance().getCachePath());
-		twseDataManager = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE);
+		twseDataManager = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE, ConfigLoader.getInstance().getTWSEFilePath());
 	}
 	
 	private void initActionListener() {

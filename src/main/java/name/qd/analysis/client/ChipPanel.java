@@ -110,7 +110,7 @@ public class ChipPanel extends JPanel {
 	
 	private void initManager() {
 		analyzerManager = new ChipAnalyzerManager(ConfigLoader.getInstance().getCachePath());
-		dataSource = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE);
+		dataSource = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE, ConfigLoader.getInstance().getTWSEFilePath());
 	}
 	
 	private void initActionListener() {

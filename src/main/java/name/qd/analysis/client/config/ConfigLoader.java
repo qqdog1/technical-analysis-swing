@@ -13,6 +13,7 @@ public class ConfigLoader {
 	public static ConfigLoader instance = new ConfigLoader();
 	
 	private String cache_path;
+	private String twse_data_path;
 	
 	private ConfigLoader() {
 		loadConfig();
@@ -29,6 +30,7 @@ public class ConfigLoader {
 			properties.load(fIn);
 			// 
 			readCachePath(properties);
+			readTWSEFilePath(properties);
 			
 			fIn.close();
 		} catch (FileNotFoundException e) {
@@ -42,7 +44,15 @@ public class ConfigLoader {
 		cache_path = properties.getProperty("file_cache_path");
 	}
 	
+	private void readTWSEFilePath(Properties properties) {
+		twse_data_path = properties.getProperty("twse_data_path");
+	}
+	
 	public String getCachePath() {
 		return cache_path;
+	}
+	
+	public String getTWSEFilePath() {
+		return twse_data_path;
 	}
 }

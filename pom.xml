@@ -42,4 +42,11 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>github-read-only</id>
+			<url>https://maven.pkg.github.com/qqdog1/technical-analysis-core</url>
+		</repository>
+	</repositories>
 </project>

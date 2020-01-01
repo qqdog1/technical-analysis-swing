@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,18 +14,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AnalysisClient {
-	private Logger log = LoggerFactory.getLogger(AnalysisClient.class);
-	private JFrame frame = new JFrame("Analyzer");
-	private JPanel panelAnalysis = new JPanel();
-	private JButton btnTech = new JButton("Tech Analysis");
-	private JButton btnChip = new JButton("Chip Analysis");
-	private JPanel techPanel = new TechPanel();
-	private JPanel chipPanel = new ChipPanel();
+	private Logger log;
+	private static String LOG_CONF_PATH = "./config/log4j2.xml";
+	private JFrame frame;
+	private JPanel panelAnalysis;
+	private JButton btnTech;
+	private JButton btnChip;
+	private JPanel techPanel;
+	private JPanel chipPanel;
 	
 	private AnalysisClient() {
+		initSysProp();
+		initUI();
 		initFrame();
-		
 		setButtonListener();
+	}
+	
+	private void initSysProp() {
+		Properties prop = System.getProperties();
+		prop.setProperty("log4j.configurationFile", LOG_CONF_PATH);
+		log = LoggerFactory.getLogger(AnalysisClient.class);
+	}
+	
+	private void initUI() {
+		frame = new JFrame("Analyzer");
+		panelAnalysis = new JPanel();
+		btnTech = new JButton("Tech Analysis");
+		btnChip = new JButton("Chip Analysis");
+		techPanel = new TechPanel();
+		chipPanel = new ChipPanel();
 	}
 	
 	private void initFrame() {

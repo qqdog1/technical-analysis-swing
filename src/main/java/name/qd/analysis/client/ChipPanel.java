@@ -109,7 +109,7 @@ public class ChipPanel extends JPanel {
 	}
 	
 	private void initManager() {
-		analyzerManager = new ChipAnalyzerManager(ConfigLoader.getInstance().getCachePath());
+		analyzerManager = new ChipAnalyzerManager(ConfigLoader.getInstance().getCachePath(), ConfigLoader.getInstance().isWriteFileToCache());
 		dataSource = DataSourceFactory.getInstance().getDataSource(Exchange.TWSE, ConfigLoader.getInstance().getTWSEFilePath());
 	}
 	

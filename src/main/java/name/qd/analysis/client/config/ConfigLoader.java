@@ -14,6 +14,7 @@ public class ConfigLoader {
 	
 	private String cache_path;
 	private String twse_data_path;
+	private boolean isWriteCacheToFile;
 	
 	private ConfigLoader() {
 		loadConfig();
@@ -31,6 +32,7 @@ public class ConfigLoader {
 			// 
 			readCachePath(properties);
 			readTWSEFilePath(properties);
+			readIsWriteCacheToFile(properties);
 			
 			fIn.close();
 		} catch (FileNotFoundException e) {
@@ -48,11 +50,19 @@ public class ConfigLoader {
 		twse_data_path = properties.getProperty("twse_data_path");
 	}
 	
+	private void readIsWriteCacheToFile(Properties properties) {
+		isWriteCacheToFile = Boolean.parseBoolean(properties.getProperty("write_cache_file"));
+	}
+	
 	public String getCachePath() {
 		return cache_path;
 	}
 	
 	public String getTWSEFilePath() {
 		return twse_data_path;
+	}
+	
+	public boolean isWriteFileToCache() {
+		return isWriteCacheToFile;
 	}
 }

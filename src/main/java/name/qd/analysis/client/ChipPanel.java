@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,10 +63,13 @@ public class ChipPanel extends JPanel {
 	private JTextField tfPnlRate = new JTextField(6);
 	private JCheckBox checkBoxOpenPnl = new JCheckBox();
 	private JLabel labelOpenPnl = new JLabel("With Open PnL");
+	private List<JLabel> lstLabel = new ArrayList<>();
+	private List<JTextField> lstTextField = new ArrayList<>();
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 	
 	private JTable table = new JTable();
 	private JScrollPane scrollPane = new JScrollPane(table);
+	private boolean isCustom = false;
 	
 	public ChipPanel() {
 		initPanel();
@@ -144,8 +148,38 @@ public class ChipPanel extends JPanel {
 				ChipAnalyzers analyzer = ChipAnalyzers.valueOf(analyzerString);
 				int inputField = analyzerManager.getInputField(analyzer);
 				setInputField(inputField);
+				
+				clearCustom();
+				
+				List<String> lst = getCustomDesception(analyzer);
+				if(lst != null) {
+					isCustom = true;
+					for(int i = 0 ; i < lst.size() ; i++) {
+						JLabel label = new JLabel(lst.get(i));
+						lstLabel.add(label);
+						JTextField textField = new JTextField(6);
+						lstTextField.add(textField);
+						addToSelectPanel(label, i*2, 2);
+						addToSelectPanel(textField, i*2+1, 2);
+					}
+				} else {
+					isCustom = false;
+				}
+				revalidate();
+				repaint();
 			}
 		});
+	}
+	
+	private void clearCustom() {
+		for(JLabel label : lstLabel) {
+			selectPanel.remove(label);
+		}
+		for(JTextField textField : lstTextField) {
+			selectPanel.remove(textField);
+		}
+		lstLabel = new ArrayList<>();
+		lstTextField = new ArrayList<>();
 	}
 	
 	private void setAllInputDisable() {
@@ -203,7 +237,20 @@ public class ChipPanel extends JPanel {
 				}
 				boolean isOpenPnl = checkBoxOpenPnl.isSelected();
 			
-				List<List<String>> lst = analyzerManager.getAnalysisResult(dataSource, chipAnalyzers, branch, product, from, to, tradeCost, isOpenPnl);
+				List<String> lstCustomInput = new ArrayList<>();
+				if(isCustom) {
+					for(JTextField textField : lstTextField) {
+						String input = textField.getText();
+						if(!input.equals("")) {
+							isCustom = true;
+						}
+						lstCustomInput.add(input);
+					}
+				}
+				String[] inputs = new String[lstCustomInput.size()];
+				lstCustomInput.toArray(inputs);
+				
+				List<List<String>> lst = analyzerManager.getAnalysisResult(dataSource, chipAnalyzers, branch, product, from, to, tradeCost, isOpenPnl, inputs);
 				showData(lst);
 			}
 		});
@@ -226,4 +273,8 @@ public class ChipPanel extends JPanel {
 		revalidate();
 		repaint();
 	}
+	
+	private List<String> getCustomDesception(ChipAnalyzers analyzer) {
+		return analyzerManager.getCustomDescription(analyzer);
+	} 
 }

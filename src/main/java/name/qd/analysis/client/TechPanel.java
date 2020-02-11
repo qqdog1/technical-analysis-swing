@@ -172,14 +172,16 @@ public class TechPanel extends JPanel {
 					if(lstTextField.size() > 0) {
 						boolean isCustom = false;
 						List<String> lstCustomInput = new ArrayList<>();
-						for(JTextField textField : lstTextField) {
-							String input = textField.getText();
-							if(!input.equals("")) {
-								isCustom = true;
-							}
-							lstCustomInput.add(input);
-						}
+						
 						if(isCustom) {
+							for(JTextField textField : lstTextField) {
+								String input = textField.getText();
+								if(!input.equals("")) {
+									isCustom = true;
+								}
+								lstCustomInput.add(input);
+							}
+							
 							String[] s = new String[lstCustomInput.size()];
 							lstCustomInput.toArray(s);
 							runCustomAnalyzer(TechAnalyzers.valueOf(analyzer), product, from, to, TechJFreeChart.LEFT, s);
